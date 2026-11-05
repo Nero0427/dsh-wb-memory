@@ -1,0 +1,20 @@
+# 依赖与构建产物
+node_modules/
+*.tgz
+*.zip
+
+# 自测产物：含本机路径与记忆正文，绝不入库
+verify/preview.md
+verify/session.jsonl
+verify/*.local.*
+
+# 本地实验
+.scratch/
+tmp-*.mjs
+test-*.mjs
+
+# 系统垃圾
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db

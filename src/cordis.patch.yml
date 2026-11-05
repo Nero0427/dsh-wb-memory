@@ -1,0 +1,13 @@
+# dsh-wb-memory bundle patch
+#
+# 只做一件事：把 WorkBuddy 的记忆文件注入 system prompt。
+# 不写任何 DSH 侧副本，不改宿主源码；AGENTS.md 加载器已在 profile 层停用。
+- insert:
+    - id: dsh-wb-memory
+      name: dsh-wb-memory
+      inject: [systemPrompt, webServer]
+      config:
+        enabled: true
+        maxBytes: 60000
+        topicsMode: index
+        projectMemory: true

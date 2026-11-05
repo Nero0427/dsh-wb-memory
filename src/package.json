@@ -1,0 +1,53 @@
+{
+  "name": "dsh-wb-memory",
+  "version": "0.1.0",
+  "description": "WorkBuddy 记忆桥：把 SOUL / USER / MEMORY / topics 渲染进 DeepSeek Harness 的 system prompt，两边共用同一份 Markdown，不落副本。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT",
+  "author": "Nero0427",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nero0427/dsh-wb-memory.git"
+  },
+  "homepage": "https://github.com/Nero0427/dsh-wb-memory#readme",
+  "bugs": {
+    "url": "https://github.com/Nero0427/dsh-wb-memory/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "workbuddy",
+    "memory",
+    "system-prompt"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
