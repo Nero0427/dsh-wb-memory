@@ -7,9 +7,9 @@
 两边读同一份 Markdown，不落副本、不建库、不漂移。
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![version](https://img.shields.io/badge/version-0.1.0-success.svg)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.1-success.svg)](CHANGELOG.md)
 [![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org)
-[![deps](https://img.shields.io/badge/runtime%20deps-0-informational.svg)](src/package.json)
+[![deps](https://img.shields.io/badge/runtime%20deps-0-informational.svg)](package.json)
 [![token](https://img.shields.io/badge/prompt%20cost-~3.3K%20tokens-orange.svg)](#token-账)
 
 </div>
@@ -61,20 +61,25 @@
 
 需要两个前提：宿主是 DSH，且记忆目录已存在（默认自动探测 `~/.workbuddy/user-*-personal`）。
 
+推荐从 GitHub 仓库安装 —— 这样插件市场能识别来源，也能检测并应用更新：
+
 ```bash
-git clone https://github.com/Nero0427/dsh-wb-memory.git
+cd <DSH_HOME>/profiles/desktop
+pnpm add github:Nero0427/dsh-wb-memory
 ```
 
-或者到 [Releases](https://github.com/Nero0427/dsh-wb-memory/releases) 下载最新的 `dsh-wb-memory-<version>.zip`，解压后用同样的方式指向其中的 `src/`。
+或者到 [Releases](https://github.com/Nero0427/dsh-wb-memory/releases) 下载最新的 `dsh-wb-memory-<version>.zip`，解压后把整个插件目录放到 `node_modules/dsh-wb-memory`。
 
-在 profile 的 `package.json` 里挂上（`link:` 指向仓库的 `src/`）：
+开发时才用 `link:` 挂本地副本（指向**仓库根**，不是 `src/`）：
 
 ```json
 {
-  "dependencies": { "dsh-wb-memory": "link:/path/to/dsh-wb-memory/src" },
+  "dependencies": { "dsh-wb-memory": "link:/path/to/dsh-wb-memory" },
   "dsh": { "profile": { "bundles": ["dsh-wb-memory"] } }
 }
 ```
+
+> `link:` 依赖属于本地开发副本，插件市场不会为它提供更新。想用「点击更新」请用上面的 `github:` 方式。
 
 在 profile 的 `cordis.patch.yml` 里停用 AGENTS.md 加载器，并插入本插件：
 
@@ -98,15 +103,17 @@ git clone https://github.com/Nero0427/dsh-wb-memory.git
 
 ## 升级
 
-插件不带在线更新器，升级 = 换一份 `src/`：
+**从仓库安装（`github:`）**：插件市场会比较仓库根 `package.json` 的 `version` 与已装版本，发现新版后出现更新入口，点击即重装到新版；也可以手动再跑一次 `pnpm add github:Nero0427/dsh-wb-memory` 拉默认分支最新代码。因为判断依据是版本号，**发新版必须递增 `package.json` 的 version**。
+
+**从 Release 解压安装**：没有在线更新器，升级 = 换一份插件目录：
 
 1. 打开 [Releases](https://github.com/Nero0427/dsh-wb-memory/releases)，对照 [CHANGELOG.md](CHANGELOG.md) 与 release notes 看是否有配置项变动。
-2. 下载 `dsh-wb-memory-<version>.zip`，解压，用新的 `src/` 整体替换旧的。
+2. 下载 `dsh-wb-memory-<version>.zip`，解压，整体替换 `node_modules/dsh-wb-memory`。
 3. 重启 DSH，用 `/memory` 确认注入生效。
 
-配置存在 `<DSH_HOME>/dsh-wb-memory/config.json` 与 profile 的 `cordis.patch.yml`，不在 `src/` 里，替换源码不会丢设置；新版本新增的配置项自带默认值。
+配置存在 `<DSH_HOME>/dsh-wb-memory/config.json` 与 profile 的 `cordis.patch.yml`，不在插件目录里，替换源码不会丢设置；新版本新增的配置项自带默认值。
 
-版本号在 `src/package.json`，与 Release tag `v<version>` 一致。用 `git clone` + `link:` 安装的，`git pull` 后重启即可。
+版本号在仓库根 `package.json`，与 Release tag `v<version>` 一致。
 
 ## 配置
 
@@ -208,10 +215,10 @@ git clone https://github.com/Nero0427/dsh-wb-memory.git
 
 ```
 .
+├── package.json              manifest：dsh.bundle / dsh.client，exports 指向 src/
+├── cordis.patch.yml          bundle patch（与 manifest 同级）
 ├── README.md
 ├── src/
-│   ├── package.json
-│   ├── cordis.patch.yml      bundle patch
 │   ├── client.js             浏览器半区：设置页「记忆」分区
 │   └── lib/
 │       ├── index.js          宿主半区：注入、路由、命令

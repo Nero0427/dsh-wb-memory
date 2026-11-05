@@ -1,27 +1,23 @@
-# 0.1.0
+# 0.1.1
 
-首个可用版本。
+让插件可以从 GitHub 仓库直接安装，并被插件市场识别与更新。功能与 0.1.0 完全一致，只调整仓库布局。
 
-## 它能做什么
+## 改了什么
 
-把 WorkBuddy 的 SOUL / USER / MEMORY / topics 渲染成 system prompt 里的一个独立 section，两边读同一份 Markdown，不落副本、不建库。
-
-- 每次装配时重新渲染，按源文件 mtime 缓存，源一改下一轮就带新内容。
-- 带记忆协议：告诉 agent 什么时候写、写到哪、怎么写，写回直接落在源文件上。
-- 设置页「记忆」分区：开关、字节预算、主题处理方式、来源目录、注入构成概览。
-- 命令：`/memory`、`/memory render`、`/memory preview`、`/memory path`。
-- 零运行时依赖。
+- `package.json` 与 `cordis.patch.yml` 移到仓库根，声明 `dsh.bundle`，符合 DSH 插件 manifest 规范。
+- 源码仍在 `src/`，`exports` 相应指向 `src/lib/index.js` 与 `src/client.js`。
+- 市场按仓库根 `package.json` 的 `version` 判断新版；此前根包缺失，读不到版本，只会把 `link:` 安装当成不可更新的本地开发副本。
 
 ## 安装
 
-下载本页下方的 `dsh-wb-memory-0.1.0.zip`，解压后把 `src/` 挂进 profile：
+推荐从仓库安装（可被市场管理、可点击更新）：
 
-```json
-{
-  "dependencies": { "dsh-wb-memory": "link:/path/to/dsh-wb-memory/src" },
-  "dsh": { "profile": { "bundles": ["dsh-wb-memory"] } }
-}
+```bash
+cd <DSH_HOME>/profiles/desktop
+pnpm add github:Nero0427/dsh-wb-memory
 ```
+
+或者下载本页的 `dsh-wb-memory-0.1.1.zip`，解压后把整个插件目录放到 `<DSH_HOME>/profiles/desktop/node_modules/dsh-wb-memory`。
 
 profile 的 `cordis.patch.yml` 里停用 AGENTS.md 加载器并插入本插件：
 
@@ -37,11 +33,11 @@ profile 的 `cordis.patch.yml` 里停用 AGENTS.md 加载器并插入本插件�
       config: { enabled: true, maxBytes: 60000, topicsMode: index, projectMemory: true }
 ```
 
-重启 DSH 生效。
+重启 DSH 生效。设置页写入的配置存在 `<DSH_HOME>/dsh-wb-memory/config.json` 与 profile 的 `cordis.patch.yml`，不随安装方式变化。
 
-## 成本
+## 从 0.1.0 升级
 
-默认配置下注入正文约 13.7 KB，约合 3.3 K token。前缀缓存命中后边际成本接近于零。
+旧版把 `package.json` 放在 `src/` 下，仓库根没有 manifest。如果之前用 `link:.../src` 挂载，改成 `github:` 安装即可；`link:` 依赖不会出现在市场的更新列表里。
 
 ## 完整说明
 

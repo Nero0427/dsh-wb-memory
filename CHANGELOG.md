@@ -11,6 +11,20 @@
 - 逐段开关（当前只有整套开关，拆到单文件会显著增加配置复杂度，待定）。
 - 主题文件按关键词预筛，替代"只放索引"与"全文注入"两档粗粒度选择。
 
+## [0.1.1] - 2026-11-05
+
+功能不变，调整仓库布局，使其能从 GitHub 仓库安装并被插件市场更新。
+
+### Changed
+
+- `package.json` 从 `src/` 移到仓库根，声明 `dsh.bundle` / `dsh.client`；`exports` 改指向 `src/lib/index.js` 与 `src/client.js`。
+- `cordis.patch.yml` 从 `src/` 移到仓库根，与 manifest 同级。
+- 发版工作流改读根 `package.json` 的版本号。
+
+### Fixed
+
+- 仓库根缺 `package.json` 导致市场读不到版本，`github:` 安装与「点击更新」都无法成立；`link:` 依赖本身也不在更新通道内。
+
 ## [0.1.0] - 2026-11-04
 
 首个可用版本。
@@ -30,5 +44,6 @@
 - 注入块开头声明性质（资料而非指令），防止陈旧记忆被当作当前约束。
 - 记忆协议要求"发现陈旧条目直接改掉或删掉"，不在后面追加"已更新"。
 
-[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.1
 [0.1.0]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.0
