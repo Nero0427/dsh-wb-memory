@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.repository == 'Nero0427/dsh-wb-memory'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Syntax-check sources
+        run: |
+          node --check src/lib/index.js
+          node --check src/lib/config.js
+          node --check src/lib/render.js
+          node --check src/client.js
+          node --input-type=module -e "import('./src/lib/index.js')"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          version="$(node -p "require('./src/package.json').version")"
+          tag="v${version}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "already published: $tag"
+            exit 0
+          fi
+          first="$(head -n 1 release-notes.md | tr -d '\r')"
+          if [ "$first" != "# ${version}" ]; then
+            echo "release-notes.md 第一行必须是 # ${version}，现在是: ${first}"
+            exit 1
+          fi
+          zip="dsh-wb-memory-${version}.zip"
+          git archive --format=zip --prefix="dsh-wb-memory-${version}/" --output="$zip" HEAD
+          args=(release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file release-notes.md)
+          case "$version" in
+            *beta*|*alpha*|*rc*) args+=(--prerelease) ;;
+          esac
+          gh "${args[@]}"
+          test -s "$zip"
+          gh release upload "$tag" "$zip" --clobber
+          echo "published https://github.com/Nero0427/dsh-wb-memory/releases/tag/${tag}"

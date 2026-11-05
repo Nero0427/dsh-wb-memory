@@ -64,6 +64,8 @@
 git clone https://github.com/Nero0427/dsh-wb-memory.git
 ```
 
+或者到 [Releases](../../releases) 下载最新的 `dsh-wb-memory-<version>.zip`，解压后用同样的方式指向其中的 `src/`。
+
 在 profile 的 `package.json` 里挂上（`link:` 指向仓库的 `src/`）：
 
 ```json
