@@ -11,6 +11,19 @@
 - 逐段开关（当前只有整套开关，拆到单文件会显著增加配置复杂度，待定）。
 - 主题文件按关键词预筛，替代"只放索引"与"全文注入"两档粗粒度选择。
 
+## [0.1.2] - 2026-11-05
+
+维护版本，代码未改。
+
+### Added
+
+- README 与 release notes 说明：市场比较仓库根 `package.json` 的 `version` 判断新版，只推 commit 不递增版本号不会提示更新。
+- 明确 `github:` 安装与 `link:` 开发副本在更新通道上的差异。
+
+### Notes
+
+- 递增版本号供更新链路检测；从 `github:` 安装的 profile 可以点击升级到本版本。
+
 ## [0.1.1] - 2026-11-05
 
 功能不变，调整仓库布局，使其能从 GitHub 仓库安装并被插件市场更新。
@@ -44,6 +57,7 @@
 - 注入块开头声明性质（资料而非指令），防止陈旧记忆被当作当前约束。
 - 记忆协议要求"发现陈旧条目直接改掉或删掉"，不在后面追加"已更新"。
 
-[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.2
 [0.1.1]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.1
 [0.1.0]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.0
