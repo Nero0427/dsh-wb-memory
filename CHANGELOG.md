@@ -11,6 +11,15 @@
 - 逐段开关（当前只有整套开关，拆到单文件会显著增加配置复杂度，待定）。
 - 主题文件按关键词预筛，替代"只放索引"与"全文注入"两档粗粒度选择。
 
+## [0.1.3] - 2026-11-07
+
+维护版本，代码未改。
+
+### Added
+
+- `package.json` 声明 `engines.dsh: ">=0.2.1-rc.2 <=0.2.1-rc.5"`；插件市场与宿主据此判定宿主兼容性，卡片不再显示「未声明宿主要求」。
+- README「快速开始」写明宿主支持范围，补充插件市场收录说明（awesome-dsh-plugin PR #12160）与一键安装方式。
+
 ## [0.1.2] - 2026-11-05
 
 维护版本，代码未改。
@@ -57,7 +66,8 @@
 - 注入块开头声明性质（资料而非指令），防止陈旧记忆被当作当前约束。
 - 记忆协议要求"发现陈旧条目直接改掉或删掉"，不在后面追加"已更新"。
 
-[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.2
 [0.1.1]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.1
 [0.1.0]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.0

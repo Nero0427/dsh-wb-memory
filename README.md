@@ -7,7 +7,7 @@
 两边读同一份 Markdown，不落副本、不建库、不漂移。
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![version](https://img.shields.io/badge/version-0.1.2-success.svg)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.3-success.svg)](CHANGELOG.md)
 [![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org)
 [![deps](https://img.shields.io/badge/runtime%20deps-0-informational.svg)](package.json)
 [![token](https://img.shields.io/badge/prompt%20cost-~3.3K%20tokens-orange.svg)](#token-账)
