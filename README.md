@@ -59,7 +59,9 @@
 
 ## 快速开始
 
-需要两个前提：宿主是 DSH，且记忆目录已存在（默认自动探测 `~/.workbuddy/user-*-personal`）。
+需要两个前提：宿主是 DeepSeek Harness **0.2.1-rc.2 ～ 0.2.1-rc.5**（在 `package.json` 的 `engines.dsh` 中声明，插件市场据此显示宿主要求），且记忆目录已存在（默认自动探测 `~/.workbuddy/user-*-personal`）。
+
+**已加入插件市场**：本插件已收录进 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 插件目录（[PR #12160](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/12160)，2026-11-07 合并）。在 DSH 内置插件市场搜索 `Nero0427/dsh-wb-memory`，点卡片上的安装即可；市场安装走 `github:` 仓库源，也能正常收到更新提示。
 
 推荐从 GitHub 仓库安装 —— 这样插件市场能识别来源，也能检测并应用更新：
 
