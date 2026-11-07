@@ -11,6 +11,37 @@
 - 逐段开关（当前只有整套开关，拆到单文件会显著增加配置复杂度，待定）。
 - 主题文件按关键词预筛，替代"只放索引"与"全文注入"两档粗粒度选择。
 
+## [0.1.4] - 2026-11-07
+
+维护版本，**功能代码零改动**（`src/` 与 `cordis.patch.yml` 与 0.1.3 完全一致）。
+
+### Changed
+
+- `engines.dsh` 从 `>=0.2.1-rc.2 <=0.2.1-rc.5` 放宽到 `>=0.2.1-rc.2 <0.2.3-0`。0.1.3 的上限会让宿主 0.2.2-rc.1 的 `dsh-app-boot` 兼容性校验拒绝加载本插件，这是新版唯一的阻断项。
+- README「快速开始」的宿主范围改为 0.2.1-rc.2 ～ 0.2.2-rc.1，新增[版本支持矩阵](README.md#版本支持矩阵)。
+
+### Added
+
+- **版本支持矩阵**（README / 本文件 / release notes 三处一致）：明确写出每个插件版本支持哪些宿主版本、以及每个宿主版本该装哪个插件版本。
+
+| 插件版本 | `engines.dsh` | 0.2.1-rc.2 | 0.2.1-rc.5 | 0.2.2-rc.1 |
+|---|---|---|---|---|
+| `≤ 0.1.2` | 未声明 | 完整 | 完整 | 可运行（未声明） |
+| `0.1.3` | `>=0.2.1-rc.2 <=0.2.1-rc.5` | 完整 | 完整 | **拒绝加载** |
+| **`0.1.4`** | `>=0.2.1-rc.2 <0.2.3-0` | **完整** | **完整** | **完整** |
+
+### Verified
+
+- 官方 0.2.2-rc.1 保留了全部依赖接口：`system-prompt/assemble` waterfall 签名与 `sections[]` 结构、`webServer.register({ kind: "prefix", handler })`、`commands.register` 的 `input.hint` / `CommandResult`、`ctx.slots.inject("settings.section", …)`、`window.__ModuleLoader__`、bundle patch 的 `insert` 语法；cordis `4.1.0` 满足 `^4.0.1`。
+- 用**真实的新版 cordis 4.1.0 + 真实 `dsh-system-prompt` 0.2.2-rc.1**（非 mock）跑装配：14 项集成断言全过（记忆段落在 `dsh-purge:anchor` 之前、正文进入最终 prompt、purge 段保留、下游抛错仍注入、prefix 路由与 `/memory` 命令注册成功、`enabled=false` 停止注入）。
+- `verify/all.mjs` 50 项自测全过；真实 `~/.dsh` 快照前后一致。
+
+### Notes
+
+- 这是离线集成验证，不等于运行时模型行为已验证。升级宿主后请发一条消息并用 `/memory` 人工确认注入。
+- 升到 0.2.2-rc.1 前，第三方 `dsh-ops 0.4.4` 须先升到 `0.5.0`；`dsh-purge-lite` 须用 `1.5.0-lite`（更早版本在新宿主上补丁残缺）。
+- 与 `dsh-purge-lite` 不同，本插件不打宿主补丁，因此宿主升级不需要重写任何 pattern。
+
 ## [0.1.3] - 2026-11-07
 
 维护版本，代码未改。
@@ -66,7 +97,8 @@
 - 注入块开头声明性质（资料而非指令），防止陈旧记忆被当作当前约束。
 - 记忆协议要求"发现陈旧条目直接改掉或删掉"，不在后面追加"已更新"。
 
-[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.2
 [0.1.1]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.1
