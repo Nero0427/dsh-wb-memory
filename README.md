@@ -7,7 +7,7 @@
 两边读同一份 Markdown，不落副本、不建库、不漂移。
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![version](https://img.shields.io/badge/version-0.1.4-success.svg)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.5-success.svg)](CHANGELOG.md)
 [![node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org)
 [![deps](https://img.shields.io/badge/runtime%20deps-0-informational.svg)](package.json)
 [![token](https://img.shields.io/badge/prompt%20cost-~3.3K%20tokens-orange.svg)](#token-账)
@@ -60,9 +60,9 @@
 
 ## 快速开始
 
-需要两个前提：宿主是 DeepSeek Harness **0.2.1-rc.2 ～ 0.2.2-rc.1**（`engines.dsh: >=0.2.1-rc.2 <0.2.3-0`，插件市场据此显示宿主要求；各插件版本与各宿主版本的对应关系见[版本支持矩阵](#版本支持矩阵)），且记忆目录已存在（默认自动探测 `~/.workbuddy/user-*-personal`）。
+需要两个前提：宿主是 DeepSeek Harness **0.2.1-rc.2 ～ 0.2.2-rc.5**（`engines.dsh: >=0.2.1-rc.2 <0.2.3-0`，插件市场据此显示宿主要求；各插件版本与各宿主版本的对应关系见[版本支持矩阵](#版本支持矩阵)），且记忆目录已存在（默认自动探测 `~/.workbuddy/user-*-personal`）。
 
-> 从 `0.2.1-rc.5` 升级到 `0.2.2-rc.1` 需要本插件 **0.1.4**：`0.1.3` 声明的上限是 `<=0.2.1-rc.5`，会被新宿主拒绝加载。本插件不改宿主源码，0.1.4 已用新宿主的真实 cordis / system-prompt 跑过集成验证，功能与 rc.5 完全一致。
+> `0.1.3` 声明的上限是 `<=0.2.1-rc.5`，从 rc.5 升到 0.2.2 系列时会被宿主拒绝加载，须用 **0.1.4 及以上**。本插件不改宿主源码，0.1.4 已用 0.2.2-rc.1 的真实 cordis / system-prompt 跑过集成验证，0.1.5 在 rc.5 干净树上复查了同样的接口。
 
 **已加入插件市场**：本插件已收录进 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 插件目录（[PR #12160](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/12160)，2026-11-07 合并）。在 DSH 内置插件市场搜索 `Nero0427/dsh-wb-memory`，点卡片上的安装即可；市场安装走 `github:` 仓库源，也能正常收到更新提示。
 
@@ -124,11 +124,12 @@ pnpm add github:Nero0427/dsh-wb-memory
 
 **哪个插件版本支持哪个宿主版本，以此表为准。** `engines.dsh` 决定「宿主允不允许加载」，与本插件功能是否完整是两回事——本插件是纯 cordis 插件，不改宿主源码，`0.1.0` 以来的功能代码从未变过。
 
-| 插件版本 | `engines.dsh` | 0.2.1-rc.2 | 0.2.1-rc.5 | 0.2.2-rc.1 | 说明 |
-|---|---|---|---|---|---|
-| `≤ 0.1.2` | 未声明 | 完整 | 完整 | 可运行（未声明） | 宿主不做版本门，功能代码与 0.1.4 相同；市场卡片显示「未声明宿主要求」 |
-| `0.1.3` | `>=0.2.1-rc.2 <=0.2.1-rc.5` | 完整 | 完整 | **拒绝加载** | 上限把新宿主挡在 `dsh-app-boot` 兼容性门外；已由 0.1.4 取代，勿用 |
-| **`0.1.4`** | `>=0.2.1-rc.2 <0.2.3-0` | **完整** | **完整** | **完整** | 首个正式声明并验证支持 0.2.2-rc.1 的版本 |
+| 插件版本 | `engines.dsh` | 0.2.1-rc.2 | 0.2.1-rc.5 | 0.2.2-rc.1 | 0.2.2-rc.5 | 说明 |
+|---|---|---|---|---|---|---|
+| `≤ 0.1.2` | 未声明 | 完整 | 完整 | 可运行（未声明） | 可运行（未声明） | 宿主不做版本门，功能代码与 0.1.5 相同；市场卡片显示「未声明宿主要求」 |
+| `0.1.3` | `>=0.2.1-rc.2 <=0.2.1-rc.5` | 完整 | 完整 | **拒绝加载** | **拒绝加载** | 上限把新宿主挡在 `dsh-app-boot` 兼容性门外；已由 0.1.4 取代，勿用 |
+| `0.1.4` | `>=0.2.1-rc.2 <0.2.3-0` | 完整 | 完整 | 完整 | 可运行（功能同 0.1.5） | 首个正式声明并验证支持 0.2.2-rc.1 的版本；上限本就含 rc.5 |
+| **`0.1.5`** | `>=0.2.1-rc.2 <0.2.3-0` | **完整** | **完整** | **完整** | **完整** | 补 rc.5 版本矩阵；功能代码与 0.1.4 一致 |
 
 > 表中「完整」= 与 `0.2.1-rc.5` 上的表现一致，不代表绕过[已知限制](#已知限制)（例如 purge 的 `complete` 模式会独占整个 prompt、项目级记忆不自动注入）。
 
@@ -136,10 +137,11 @@ pnpm add github:Nero0427/dsh-wb-memory
 
 | 宿主版本 | 推荐插件版本 | 升级前必读 |
 |---|---|---|
-| `0.2.1-rc.2` / `0.2.1-rc.5` | `0.1.4` | 与 `dsh-purge-lite 1.5.0-lite` 搭配，两者共用同一个 assemble waterfall |
-| `0.2.2-rc.1` | **只能 `0.1.4`** | ① 第三方 `dsh-ops 0.4.4` 声明 `<0.2.2-0`，须先升到 `0.5.0`，否则宿主拒绝加载；② `dsh-purge-lite` 须用 `1.5.0-lite`，更早版本在新宿主上补丁残缺；③ 覆盖安装会还原 `app.asar`，purge 补丁需重新解包并 `--apply --status`；④ `app-update.yml` 会恢复官方 nightly 源，要锁版本需再改回 `disabled.invalid` |
+| `0.2.1-rc.2` / `0.2.1-rc.5` | `0.1.5` | 与 `dsh-purge-lite 1.5.4-lite` 搭配，两者共用同一个 assemble waterfall |
+| `0.2.2-rc.1` | `0.1.5` | 覆盖安装会还原 `app.asar`，purge 补丁需重新解包并 `--apply --status`；`app-update.yml` 会恢复官方 nightly 源，要锁版本需再改回 `disabled.invalid` |
+| `0.2.2-rc.5` | **`0.1.5`** | `engines.dsh` 上限 `<0.2.3-0` 本就包含 rc.5，代码无需改；配套 `dsh-purge-lite 1.5.4-lite` 修复 rc.5 的 5 条补丁漂移 |
 
-**为什么 0.1.4 不用改代码**：官方 0.2.2-rc.1 保留了本插件依赖的全部接口——`system-prompt/assemble` waterfall 的 `(assembly, context, next)` 签名与 `sections[]` 结构、`webServer.register({ kind: "prefix", handler })`、`commands.register` 的 `input.hint` 与 `CommandResult`、`ctx.slots.inject("settings.section", …)`、`window.__ModuleLoader__`、`cordis.patch.yml` 的 `insert` 语法。cordis 从 `4.0.5` 升到 `4.1.0`，仍满足 `peerDependencies` 的 `^4.0.1`。唯一失效的是 `0.1.3` 自己写窄的 `engines.dsh` 上限。
+**为什么 0.1.5 不用改代码**：官方 0.2.2 系列保留了本插件依赖的全部接口——`system-prompt/assemble` waterfall 的 `(assembly, context, next)` 签名与 `sections[]` 结构、`webServer.register({ kind: "prefix", handler })`、`commands.register` 的 `input.hint` 与 `CommandResult`、`ctx.slots.inject("settings.section", …)`、`window.__ModuleLoader__`、`cordis.patch.yml` 的 `insert` 语法。cordis 从 `4.0.5` 升到 `4.1.0`，仍满足 `peerDependencies` 的 `^4.0.1`；rc.5 干净树复查这些接口仍在。唯一失效的是 `0.1.3` 自己写窄的 `engines.dsh` 上限。
 
 **验证口径**（离线，非运行时）：从官方安装包解出 `app.asar`，用**真实的新版 cordis 4.1.0 + 真实 `dsh-system-prompt` 0.2.2-rc.1**（不是 mock）装配 system prompt，14 项集成断言全过——记忆段落在 `dsh-purge:anchor` 之前、正文进入最终 prompt、purge 段保留、下游抛错仍注入、路由与 `/memory` 命令注册成功、`enabled=false` 停止注入；仓库自带 `verify/all.mjs` 50 项自测全过；真实 `~/.dsh` 快照前后一致。**端到端的模型行为仍需你在升级后发一条消息、用 `/memory` 人工确认。**
 

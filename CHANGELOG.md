@@ -6,6 +6,18 @@
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-11-21
+
+维护版本，**功能代码零改动**（`src/` 与 `cordis.patch.yml` 与 0.1.4 完全一致）。
+
+### Changed
+
+- README / release-notes / 本文件的版本支持矩阵补 0.2.2-rc.5 列。`engines.dsh` 上限 `<0.2.3-0` 本就包含 rc.5，无需改声明；发这一版是为了让市场检测有版本可升、文档不误导。
+
+### Verified
+
+- 从 rc.5 官方 `app.asar` 导出的干净树复查：cordis 仍为 `4.1.0`，`dsh-system-prompt` 的 `assemble`、webServer 的 prefix 路由、commands 的 `input.hint` 均在，依赖接口无破坏性变化。
+
 ### Planned
 
 - 逐段开关（当前只有整套开关，拆到单文件会显著增加配置复杂度，待定）。
@@ -97,7 +109,8 @@
 - 注入块开头声明性质（资料而非指令），防止陈旧记忆被当作当前约束。
 - 记忆协议要求"发现陈旧条目直接改掉或删掉"，不在后面追加"已更新"。
 
-[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/Nero0427/dsh-wb-memory/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/Nero0427/dsh-wb-memory/releases/tag/v0.1.2
